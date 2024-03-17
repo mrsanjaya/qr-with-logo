@@ -240,10 +240,14 @@ async function addLogoToQRImage(qr_image_path, logo_image_path, output_type, sav
                 sharp(qr_image_path)
                     .composite([{input: logo_image_path, gravity: 'centre' }])
                     .toFile(saveas_file_name);
-                 await fs.unlink(qr_image_path, async function () {
+
+                setTimeout(() => {
+                    await fs.unlink(qr_image_path, async function () {
 
                         console.log("REMOVE : " + qr_image_path);
                     });
+                }, 2000)
+                 
 
             } catch(err) {
                 console.log("Error encountered when attempting to save QR with logo, check 'saveas_file_name' parameter");
