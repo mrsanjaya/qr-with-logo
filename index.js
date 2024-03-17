@@ -241,7 +241,7 @@ async function addLogoToQRImage(qr_image_path, logo_image_path, output_type, sav
                     .composite([{input: logo_image_path, gravity: 'centre' }])
                     .toFile(saveas_file_name);
 
-                setTimeout(() => {
+                setTimeout(async () => {
                     await fs.unlink(qr_image_path, async function () {
 
                         console.log("REMOVE : " + qr_image_path);
