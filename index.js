@@ -87,12 +87,12 @@ async function generateQRWithLogo(embedded_data, logo_image_path, qr_options, ou
             if (output_type == "PNG") {
 
                 await addLogoToQRImage(qr_image_path, logo_image_path, "PNG", saveas_file_name, async function () {
-                    await fs.unlink(qr_image_path, async function () {
+                    // await fs.unlink(qr_image_path, async function () {
 
-                        callback();
+                    //     callback();
 
-                    });
-                    // callback(); // No-parameter callback, in the event
+                    // });
+                    callback(); // No-parameter callback, in the event
                     /**
                     await fs.stat(qr_image_path, async function (err, stats) {
                         console.log('Stats: ' + stats);//here we got all information of file in stats variable
@@ -236,9 +236,14 @@ async function addLogoToQRImage(qr_image_path, logo_image_path, output_type, sav
         if (saveas_file_name) {
 
             try {
+                
                 sharp(qr_image_path)
                     .composite([{input: logo_image_path, gravity: 'centre' }])
                     .toFile(saveas_file_name);
+                 await fs.unlink(qr_image_path, async function () {
+
+                        console.log("REMOVE : " + qr_image_path);
+                    });
 
             } catch(err) {
                 console.log("Error encountered when attempting to save QR with logo, check 'saveas_file_name' parameter");
